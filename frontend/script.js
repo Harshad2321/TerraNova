@@ -1,43 +1,43 @@
-document.getElementById("cityForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+// frontend/script.js
+async function planCity() {
+    const width = document.getElementById("width").value;
+    const height = document.getElementById("height").value;
+    const population = document.getElementById("population").value;
 
-  const data = {
-    name: document.getElementById("name").value,
-    width: parseInt(document.getElementById("width").value),
-    height: parseInt(document.getElementById("height").value),
-    parks: parseInt(document.getElementById("parks").value),
-    homes: parseInt(document.getElementById("homes").value),
-    roads: parseInt(document.getElementById("roads").value),
-    buildings: parseInt(document.getElementById("buildings").value),
-    visuals: true
-  };
-
-  const res = await fetch("http://127.0.0.1:8000/city/plan", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-
-  const city = await res.json();
-  renderCity(city.layout);
-});
-
-function renderCity(layout) {
-  const output = document.getElementById("output");
-  output.innerHTML = "";
-
-  const grid = document.createElement("div");
-  grid.className = "grid";
-  grid.style.gridTemplateColumns = `repeat(${layout[0].length}, 40px)`;
-
-  layout.forEach(row => {
-    row.forEach(cell => {
-      const div = document.createElement("div");
-      div.className = "cell";
-      div.textContent = cell;
-      grid.appendChild(div);
+    const response = await fetch("http://127.0.0.1:8000/city/plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ width, height, population }),
     });
-  });
 
-  output.appendChild(grid);
+    const data = await response.json();
+
+    // Display grid
+    const gridDiv = document.getElementById("grid");
+    gridDiv.innerHTML = "";
+    data.layout.forEach(row => {
+        const rowDiv = document.createElement("div");
+        rowDiv.style.display = "flex";
+        row.forEach(cell => {
+            const cellDiv = document.createElement("div");
+            cellDiv.innerText = cell[0].toUpperCase(); // First letter
+            cellDiv.style.width = "30px";
+            cellDiv.style.height = "30px";
+            cellDiv.style.border = "1px solid black";
+            cellDiv.style.textAlign = "center";
+            rowDiv.appendChild(cellDiv);
+        });
+        gridDiv.appendChild(rowDiv);
+    });
+
+    // Display recommendations
+    const recDiv = document.getElementById("recommendations");
+    recDiv.innerHTML = "<h3>Recommendations:</h3>";
+    const ul = document.createElement("ul");
+    data.recommendations.forEach(rec => {
+        const li = document.createElement("li");
+        li.innerText = rec;
+        ul.appendChild(li);
+    });
+    recDiv.appendChild(ul);
 }

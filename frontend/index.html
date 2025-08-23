@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>TerraNova City Planner</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraNova - Smart City Planner</title>
+    <link rel="stylesheet" href="frontend/styles.css">
 </head>
 <body>
-  <h1>🏙️ TerraNova City Planner</h1>
+    <div class="container">
+        <h1>🏙️ TerraNova - Smart City Planner</h1>
+        <form onsubmit="event.preventDefault(); planCity();">
+            <label for="width">City Width:</label>
+            <input type="number" id="width" value="10" required>
+            
+            <label for="height">City Height:</label>
+            <input type="number" id="height" value="10" required>
+            
+            <label for="population">Population:</label>
+            <input type="number" id="population" value="1000" required>
+            
+            <button type="submit">Generate City Plan</button>
+        </form>
 
-  <form id="cityForm">
-    <input type="text" id="name" placeholder="City Name" value="TerraNova" required>
-    <input type="number" id="width" placeholder="Width" value="6" required>
-    <input type="number" id="height" placeholder="Height" value="5" required>
-    <input type="number" id="parks" placeholder="Parks" value="3">
-    <input type="number" id="homes" placeholder="Homes" value="4">
-    <input type="number" id="roads" placeholder="Roads" value="2">
-    <input type="number" id="buildings" placeholder="Buildings" value="3">
-    <button type="submit">Generate City</button>
-  </form>
+        <div id="grid-container">
+            <h2>🗺️ City Layout</h2>
+            <div id="grid"></div>
+        </div>
 
-  <div id="output"></div>
+        <div id="recommendations-container">
+            <h2>📋 Recommendations</h2>
+            <div id="recommendations"></div>
+        </div>
+    </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

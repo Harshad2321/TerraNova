@@ -1,42 +1,50 @@
 # backend/services/planner.py
+import random
 from backend.schemas.city import CityRequest, CityResponse
 
 def generate_city_layout(request: CityRequest) -> CityResponse:
-    """
-    Generates a simple 2D city layout using symbols:
-    - 🏡 = Home
-    - 🏢 = Building
-    - 🌳 = Park
-    - 🛣️ = Road
-    """
-    grid = [["⬜" for _ in range(request.width)] for _ in range(request.height)]
+    width, height = request.width, request.height
+    layout = [["empty" for _ in range(width)] for _ in range(height)]
+    recommendations = []
+
+    # Place residential areas
+    for _ in range(request.population // 100):
+        x, y = random.randint(0, height - 1), random.randint(0, width - 1)
+        layout[x][y] = "residential"
+
+    # Place commercial areas
+    for _ in range(max(1, request.population // 300)):
+        x, y = random.randint(0, height - 1), random.randint(0, width - 1)
+        layout[x][y] = "commercial"
+
+    # Place schools
+    school_count = max(1, request.population // 500)
+    for _ in range(school_count):
+        x, y = random.randint(0, height - 1), random.randint(0, width - 1)
+        layout[x][y] = "school"
+    recommendations.append(f"Schools needed: {school_count}")
+
+    # Place hospitals
+    hospital_count = max(1, request.population // 1000)
+    for _ in range(hospital_count):
+        x, y = random.randint(0, height - 1), random.randint(0, width - 1)
+        layout[x][y] = "hospital"
+    recommendations.append(f"Hospitals needed: {hospital_count}")
 
     # Place parks
-    for i in range(min(request.parks, request.width * request.height)):
-        grid[i % request.height][i % request.width] = "🌳"
+    park_count = max(1, (width * height) // 50)
+    for _ in range(park_count):
+        x, y = random.randint(0, height - 1), random.randint(0, width - 1)
+        layout[x][y] = "park"
+    recommendations.append(f"Parks for sustainability: {park_count}")
 
-    # Place homes
-    for i in range(request.homes):
-        x, y = (i * 2) % request.width, (i * 3) % request.height
-        grid[y][x] = "🏡"
+    # Soil quality check
+    soil_quality = random.choice(["good", "average", "poor"])
+    if soil_quality == "good":
+        recommendations.append("Soil quality is good for building.")
+    elif soil_quality == "average":
+        recommendations.append("Soil quality is average. Suitable with reinforcement.")
+    else:
+        recommendations.append("Soil quality is poor. Avoid heavy construction here.")
 
-    # Place buildings
-    for i in range(request.buildings):
-        x, y = (i * 3) % request.width, (i * 2) % request.height
-        grid[y][x] = "🏢"
-
-    # Place roads
-    for i in range(request.roads):
-        x, y = (i * 4) % request.width, (i * 5) % request.height
-        grid[y][x] = "🛣️"
-
-    return CityResponse(
-        city=request.name,
-        dimensions=f"{request.width}x{request.height}",
-        parks=request.parks,
-        homes=request.homes,
-        roads=request.roads,
-        buildings=request.buildings,
-        visuals_enabled=request.visuals,
-        layout=grid
-    )
+    return CityResponse(layout=layout, recommendations=recommendations)
