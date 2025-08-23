@@ -1,7 +1,2 @@
-# Define tile representations for city planning
-ROAD = "🛣️"
-HOME = "🏠"
-BUILDING = "🏢"
-PARK = "🌳"
-MARKET = "🛍️"
-EMPTY = "⬜"
+def generate_tiles():
+    return {"message": "Tiles generated successfully"}

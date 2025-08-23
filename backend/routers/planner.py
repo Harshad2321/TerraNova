@@ -1,85 +1,106 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
-from typing import Dict
+from backend.schemas.planner import CityRequest, CityPlan
+import folium
+import os
 
 router = APIRouter()
 
-# ---------- INPUT MODEL ----------
-class CityPlanRequest(BaseModel):
-    city_name: str
-    population: int
-    area: float  # in sq km
-    soil_type: str
-    surroundings: str  # e.g., coastal, hilly, plain
+# Directory where maps will be saved
+MAPS_DIR = "generated_maps"
+os.makedirs(MAPS_DIR, exist_ok=True)
 
 
-# ---------- OUTPUT MODEL ----------
-class CityPlanResponse(BaseModel):
-    city_name: str
-    population: int
-    area: float
-    soil_type: str
-    surroundings: str
-    feasible: bool
-    summary: str
-    recommendations: Dict[str, int]
-    map_url: str
+@router.post("/plan", response_model=CityPlan)
+def create_plan(request: CityRequest):
+    """
+    Returns a simple JSON city plan
+    """
+    return CityPlan(
+        city_name=request.city_name,
+        roads=["Main Road", "Ring Road"],
+        residential_zones=["Sector-1", "Sector-2"],
+        commercial_zones=["Market Square"],
+        public_amenities=[
+            "Park-1",
+            "Railway Station" if request.railway_station else None,
+            "Riverfront" if request.river else None
+        ]
+    )
 
 
-# ---------- HELPER FUNCTION ----------
-def generate_plan(data: CityPlanRequest) -> CityPlanResponse:
-    """Generate recommendations based on user input"""
+@router.post("/plan/map")
+def create_plan_with_map(request: CityRequest):
+    """
+    Returns a JSON city plan and generates a Folium map with markers
+    """
+    # Build the plan
+    plan = CityPlan(
+        city_name=request.city_name,
+        roads=["Main Road", "Ring Road"],
+        residential_zones=["Sector-1", "Sector-2"],
+        commercial_zones=["Market Square"],
+        public_amenities=[
+            "Park-1",
+            "Railway Station" if request.railway_station else None,
+            "Riverfront" if request.river else None
+        ]
+    )
 
-    # Base recommendations
-    recs = {
-        "hospitals": max(1, data.population // 50000),
-        "schools": max(2, data.population // 20000),
-        "residential": max(5, data.area // 10),
-        "offices": max(2, data.area // 25),
-        "malls": max(1, data.population // 80000),
-        "factories": 0,
-        "police": max(1, data.population // 100000),
-        "fire_stations": max(1, data.population // 120000),
-        "railways": 0,
-        "parks": max(1, int(data.area) // 20),
-        "solar_plants": 1 if data.surroundings in ["coastal", "plain"] else 0,
-        "wind_turbines": 1 if data.surroundings == "coastal" else 0,
+    # Create a Folium map centered on India (example)
+    m = folium.Map(location=[20.5937, 78.9629], zoom_start=6)
+
+    # Add markers
+    folium.Marker(
+        [20.60, 78.96],
+        tooltip="Main Road",
+        icon=folium.Icon(color="blue", icon="road", prefix="fa")
+    ).add_to(m)
+
+    if request.railway_station:
+        folium.Marker(
+            [20.61, 78.97],
+            tooltip="Railway Station",
+            icon=folium.Icon(color="red", icon="train", prefix="fa")
+        ).add_to(m)
+
+    if request.river:
+        folium.Marker(
+            [20.62, 78.94],
+            tooltip="Riverfront",
+            icon=folium.Icon(color="cadetblue", icon="tint", prefix="fa")
+        ).add_to(m)
+
+    # Parks
+    for i in range(request.parks):
+        folium.Marker(
+            [20.63 + i * 0.01, 78.95 + i * 0.01],
+            tooltip=f"Park-{i+1}",
+            icon=folium.Icon(color="green", icon="tree", prefix="fa")
+        ).add_to(m)
+
+    # Commercial
+    folium.Marker(
+        [20.64, 78.96],
+        tooltip="Market Square",
+        icon=folium.Icon(color="orange", icon="shopping-cart", prefix="fa")
+    ).add_to(m)
+
+    # Save map
+    map_path = os.path.join(MAPS_DIR, f"{request.city_name}_map.html")
+    m.save(map_path)
+
+    return {
+        "plan": plan,
+        "map_url": f"http://127.0.0.1:8000/maps/{request.city_name}_map.html"
     }
+from fastapi import APIRouter
+from backend.schemas.planner import CityRequest, CityPlan
+from backend.services.planner import generate_city_plan, generate_city_map
 
-    # Adjustments based on soil
-    if data.soil_type == "clay":
-        recs["factories"] = 1
-    elif data.soil_type == "rocky":
-        recs["railways"] = 1
+router = APIRouter()
 
-    # Feasibility
-    feasible = data.population > 10000 and data.area > 10
-
-    # Summary
-    summary = (
-        f"City {data.city_name} is planned with a population of {data.population} "
-        f"and area {data.area} sq km. The soil is {data.soil_type}, "
-        f"surrounded by {data.surroundings}. Recommended {recs['hospitals']} hospitals, "
-        f"{recs['schools']} schools, {recs['parks']} parks, and {recs['offices']} office areas."
-    )
-
-    # Map placeholder (you can generate actual images later)
-    map_url = f"maps/{data.city_name}_map.png"
-
-    return CityPlanResponse(
-        city_name=data.city_name,
-        population=data.population,
-        area=data.area,
-        soil_type=data.soil_type,
-        surroundings=data.surroundings,
-        feasible=feasible,
-        summary=summary,
-        recommendations=recs,
-        map_url=map_url,
-    )
-
-
-# ---------- ROUTE ----------
-@router.post("/plan", response_model=CityPlanResponse)
-def plan_city(request: CityPlanRequest):
-    return generate_plan(request)
+@router.post("/plan", response_model=CityPlan)
+def create_plan(req: CityRequest):
+    plan = generate_city_plan(req)
+    map_path = generate_city_map(plan)
+    return {"plan": plan, "map_file": map_path}

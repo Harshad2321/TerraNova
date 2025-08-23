@@ -1,29 +1,39 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from backend.routers import city
 
-app = FastAPI(
-    title="TerraNova - Smart City Planner",
-    description="AI-driven city planning system",
-    version="1.0.0"
-)
+# Import routers
+from backend.routers import city, planner, upload, visualize
 
-# Allow frontend access
+
+app = FastAPI(title="TerraNova City Planner")
+
+# ✅ CORS middleware so frontend can access API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # change to specific domain in prod
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Static files (for maps)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# ✅ Mount static files for maps
+app.mount("/maps", StaticFiles(directory="generated_maps"), name="maps")
+app.mount("/uploads", StaticFiles(directory="uploaded_files"), name="uploads")
 
-# Routers
-app.include_router(city.router, prefix="/city", tags=["City Planner"])
+# ✅ Include routers
+app.include_router(city.router, prefix="/city", tags=["City"])
+app.include_router(planner.router, prefix="/planner", tags=["Planner"])
+app.include_router(upload.router, prefix="/upload", tags=["Upload"])
+app.include_router(visualize.router, prefix="/visualize", tags=["Visualize"])
+
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to TerraNova - Smart City Planner API 🚀"}
+    return {"message": "🌍 Welcome to TerraNova Backend API!"}
+from fastapi import FastAPI
+from backend.routers import planner
+
+app = FastAPI(title="City Planner API")
+
+app.include_router(planner.router, prefix="/planner", tags=["Planner"])
