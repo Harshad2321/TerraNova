@@ -1,6 +1,8 @@
+from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Dict
 
+router = APIRouter()
 
 # ---------- INPUT MODEL ----------
 class CityPlanRequest(BaseModel):
@@ -24,16 +26,16 @@ class CityPlanResponse(BaseModel):
     map_url: str
 
 
-# ---------- CORE LOGIC ----------
-def generate_city_layout(data: CityPlanRequest) -> CityPlanResponse:
-    """Generate city planning recommendations and feasibility analysis"""
+# ---------- HELPER FUNCTION ----------
+def generate_plan(data: CityPlanRequest) -> CityPlanResponse:
+    """Generate recommendations based on user input"""
 
     # Base recommendations
     recs = {
         "hospitals": max(1, data.population // 50000),
         "schools": max(2, data.population // 20000),
-        "residential": max(5, int(data.area) // 10),
-        "offices": max(2, int(data.area) // 25),
+        "residential": max(5, data.area // 10),
+        "offices": max(2, data.area // 25),
         "malls": max(1, data.population // 80000),
         "factories": 0,
         "police": max(1, data.population // 100000),
@@ -45,15 +47,15 @@ def generate_city_layout(data: CityPlanRequest) -> CityPlanResponse:
     }
 
     # Adjustments based on soil
-    if data.soil_type.lower() == "clay":
+    if data.soil_type == "clay":
         recs["factories"] = 1
-    elif data.soil_type.lower() == "rocky":
+    elif data.soil_type == "rocky":
         recs["railways"] = 1
 
-    # Feasibility rules
+    # Feasibility
     feasible = data.population > 10000 and data.area > 10
 
-    # Summary string
+    # Summary
     summary = (
         f"City {data.city_name} is planned with a population of {data.population} "
         f"and area {data.area} sq km. The soil is {data.soil_type}, "
@@ -61,7 +63,7 @@ def generate_city_layout(data: CityPlanRequest) -> CityPlanResponse:
         f"{recs['schools']} schools, {recs['parks']} parks, and {recs['offices']} office areas."
     )
 
-    # Map placeholder (later can be replaced with matplotlib drawing)
+    # Map placeholder (you can generate actual images later)
     map_url = f"maps/{data.city_name}_map.png"
 
     return CityPlanResponse(
@@ -75,3 +77,9 @@ def generate_city_layout(data: CityPlanRequest) -> CityPlanResponse:
         recommendations=recs,
         map_url=map_url,
     )
+
+
+# ---------- ROUTE ----------
+@router.post("/plan", response_model=CityPlanResponse)
+def plan_city(request: CityPlanRequest):
+    return generate_plan(request)

@@ -1,12 +1,14 @@
-# backend/schemas/city.py
 from pydantic import BaseModel
-from typing import List, Dict, Any
 
 class CityRequest(BaseModel):
-    width: int
-    height: int
+    city_name: str
     population: int
+    area: float  # in square km
+    soil_type: str
+    surroundings: str
 
 class CityResponse(BaseModel):
-    layout: List[List[str]]
-    recommendations: List[str]
+    feasible: bool
+    summary: str
+    recommendations: dict
+    map_url: str
