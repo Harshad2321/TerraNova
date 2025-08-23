@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TerraNova City Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🏙️ TerraNova City Planner</h1>
+
+  <form id="cityForm">
+    <input type="text" id="name" placeholder="City Name" value="TerraNova" required>
+    <input type="number" id="width" placeholder="Width" value="6" required>
+    <input type="number" id="height" placeholder="Height" value="5" required>
+    <input type="number" id="parks" placeholder="Parks" value="3">
+    <input type="number" id="homes" placeholder="Homes" value="4">
+    <input type="number" id="roads" placeholder="Roads" value="2">
+    <input type="number" id="buildings" placeholder="Buildings" value="3">
+    <button type="submit">Generate City</button>
+  </form>
+
+  <div id="output"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
