@@ -36,7 +36,7 @@ app.add_exception_handler(Exception, general_exception_handler)
 # Allow frontend access with CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # change to specific domain in prod
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -64,7 +64,5 @@ def root():
 
 @app.get("/app")
 def serve_frontend():
-    """Serve the frontend index.html file"""
-    return FileResponse("frontend/index.html")
     """Serve the frontend index.html file"""
     return FileResponse("frontend/index.html")

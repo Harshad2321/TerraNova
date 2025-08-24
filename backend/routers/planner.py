@@ -43,3 +43,4 @@ async def plan_city(request: DetailedCityRequest):
         
     # Generate the city plan
     return generate_city_layout(request)
+# End of file

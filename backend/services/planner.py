@@ -94,5 +94,9 @@ def generate_city_layout(data: DetailedCityRequest) -> DetailedCityResponse:
         feasible=feasible,
         summary=summary,
         recommendations=recs,
-        map_url=map_url,
+        map_url=map_url
     )
+
+
+# This function is removed as it was part of another implementation that uses folium
+# We're keeping the DetailedCityResponse implementation instead

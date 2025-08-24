@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """
 Tile definitions and utilities for city planning visualization
 This module provides constants and functions to represent city elements
@@ -49,3 +50,7 @@ def get_description(tile_code):
         EMPTY: "Undeveloped Land",
     }
     return desc_map.get(tile_code, "Unknown")
+=======
+def generate_tiles():
+    return {"message": "Tiles generated successfully"}
+>>>>>>> 274675ff71f270e489da21ab8bad1f12bca825f3

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from fastapi.testclient import TestClient
 from backend.main import app
 
@@ -74,3 +75,5 @@ def test_invalid_input_handling():
         "surroundings": "plain"
     })
     assert response.status_code == 400
+=======
+>>>>>>> 274675ff71f270e489da21ab8bad1f12bca825f3

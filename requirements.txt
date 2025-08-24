@@ -7,3 +7,4 @@ python-multipart>=0.0.6
 jinja2>=3.1.2
 numpy>=1.26.0
 pillow>=10.2.0
+folium

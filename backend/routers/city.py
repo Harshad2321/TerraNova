@@ -86,3 +86,8 @@ async def plan_city(request: dict):
         "map_url": map_url,
         "visual_map_available": visual_map_available
     }
+
+# Example city details
+@router.get("/info")
+def get_city_info():
+    return {"city": "TerraNova", "population": 500000, "area_km2": 250}

@@ -37,3 +37,8 @@ class DetailedCityResponse(BaseModel):
     summary: str
     recommendations: Dict[str, int]
     map_url: str
+
+class CitySchema(BaseModel):
+    name: str
+    population: int
+    area_km2: float
