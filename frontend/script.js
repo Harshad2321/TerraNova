@@ -166,8 +166,16 @@ async function generateCity() {
 
     } catch (error) {
         console.error("Error:", error);
-        showError(`Could not connect to backend: ${error.message}`);
-        metricsList.innerHTML = "<li style='color:red;'>⚠️ Failed to generate city. Please check if the backend is running on port 8000.</li>";
+        
+        // Check if we're on GitHub Pages and provide demo mode
+        const hostname = window.location.hostname;
+        if (hostname.includes('github.io')) {
+            console.log("Running in demo mode on GitHub Pages");
+            showDemoMode(cityName, population, terrain, ecoPriority, size);
+        } else {
+            showError(`Could not connect to backend: ${error.message}`);
+            metricsList.innerHTML = "<li style='color:red;'>⚠️ Failed to generate city. Please check if the backend is running on port 8000.</li>";
+        }
     } finally {
         // Reset button state
         generateBtn.disabled = false;
@@ -484,6 +492,102 @@ window.addEventListener('load', function () {
         }
     }
 });
+
+// Demo mode for GitHub Pages deployment
+function showDemoMode(cityName, population, terrain, ecoPriority, size) {
+    // Generate demo data based on inputs
+    const demoData = generateDemoData(cityName, population, terrain, ecoPriority, size);
+    
+    // Display demo results with animations
+    setTimeout(() => displayCityInfo(demoData.city_info), 300);
+    setTimeout(() => renderMap(demoData.plan_grid, demoData.legend), 600);
+    setTimeout(() => displayMetrics(demoData.metrics), 900);
+    setTimeout(() => displayNotes(demoData.notes), 1200);
+
+    // Show map controls
+    document.getElementById("mapControls").style.display = "flex";
+
+    // Store data for sharing/downloading
+    window.currentCityData = demoData;
+
+    showSuccess("Demo city generated! (Backend not connected - this is simulated data)");
+}
+
+function generateDemoData(cityName, population, terrain, ecoPriority, size) {
+    // Generate a demo grid based on size
+    const gridSize = Math.min(size, 30);
+    const grid = [];
+    
+    for (let i = 0; i < gridSize; i++) {
+        const row = [];
+        for (let j = 0; j < gridSize; j++) {
+            // Simple pattern generation for demo
+            let cellType = 0; // Empty by default
+            
+            // Add some water
+            if (i === 0 || j === 0 || i === gridSize-1 || j === gridSize-1) {
+                if (Math.random() < 0.3) cellType = 1; // Water
+            }
+            
+            // Add residential areas
+            if (i > 2 && i < gridSize-3 && j > 2 && j < gridSize-3) {
+                if (Math.random() < 0.4) cellType = 5; // Home
+            }
+            
+            // Add roads
+            if (i % 4 === 0 || j % 4 === 0) {
+                if (Math.random() < 0.6) cellType = 12; // Road
+            }
+            
+            // Add parks based on eco priority
+            if (ecoPriority > 7 && Math.random() < 0.15) {
+                cellType = 4; // Park
+            }
+            
+            // Add commercial buildings
+            if (Math.random() < 0.1) cellType = 6; // Office
+            
+            // Add essential services
+            if (Math.random() < 0.05) cellType = 7; // Hospital
+            if (Math.random() < 0.05) cellType = 8; // School
+            
+            row.push(cellType);
+        }
+        grid.push(row);
+    }
+    
+    // Generate demo metrics
+    const sustainabilityScore = Math.max(20, ecoPriority * 8 + Math.random() * 20);
+    const efficiency = Math.max(60, 70 + Math.random() * 25);
+    
+    return {
+        city_info: {
+            name: cityName,
+            population: population.toLocaleString(),
+            terrain: terrain.charAt(0).toUpperCase() + terrain.slice(1),
+            size: `${size}x${size} blocks`
+        },
+        plan_grid: grid,
+        legend: {
+            0: "Empty", 1: "Water", 4: "Park", 5: "Residential", 
+            6: "Commercial", 7: "Hospital", 8: "School", 12: "Road"
+        },
+        metrics: [
+            `🌱 Sustainability Score: ${sustainabilityScore.toFixed(1)}/100`,
+            `⚡ Energy Efficiency: ${efficiency.toFixed(1)}%`,
+            `🚶 Walkability Index: ${(60 + Math.random() * 30).toFixed(1)}/100`,
+            `🏠 Housing Coverage: ${(population/1000 * 0.8).toFixed(0)} units`,
+            `🌳 Green Space: ${(ecoPriority * 2 + 10).toFixed(0)}%`
+        ],
+        notes: [
+            "📍 This is demo data generated for GitHub Pages deployment",
+            "🔗 Connect a backend API for real AI-powered city generation",
+            "🎨 The visualization system is fully functional",
+            "📱 This app works offline and can be installed as a PWA",
+            "⚙️ All frontend features are operational in demo mode"
+        ]
+    };
+}
 
 // Add CSS animations
 const style = document.createElement('style');
