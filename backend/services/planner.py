@@ -1,102 +1,217 @@
-from backend.schemas.city import DetailedCityRequest, DetailedCityResponse
-from typing import Dict
-import os
+from __future__ import annotations
+import random
+from typing import List, Tuple, Optional, Dict
+import numpy as np
+from .tiles import TILE, LEGEND
 
-def generate_city_layout(data: DetailedCityRequest) -> DetailedCityResponse:
-    """
-    Generate city planning recommendations and feasibility analysis
-    
-    Args:
-        data: DetailedCityRequest containing city parameters
-        
-    Returns:
-        DetailedCityResponse with recommendations and analysis
-    """
-    # Ensure the city name is valid for a filename
-    city_name = ''.join(c if c.isalnum() else '_' for c in data.city_name)
-    
-    # Base recommendations based on population and area
-    recs = {
-        "hospitals": max(1, data.population // 50000),
-        "schools": max(2, data.population // 20000),
-        "residential_zones": max(5, int(data.area) // 10),
-        "office_buildings": max(2, int(data.area) // 25),
-        "shopping_malls": max(1, data.population // 80000),
-        "factories": 0,
-        "police_stations": max(1, data.population // 100000),
-        "fire_stations": max(1, data.population // 120000),
-        "railway_stations": 0,
-        "parks": max(1, int(data.area) // 20),
-        "solar_plants": 1 if data.surroundings.lower() in ["coastal", "plain"] else 0,
-        "wind_turbines": 1 if data.surroundings.lower() == "coastal" else 0,
+# ---------------- helpers ----------------
+def seed_everything(seed: Optional[int] = 42):
+    if seed is not None:
+        random.seed(seed)
+        np.random.seed(seed)
+
+def in_bounds(y: int, x: int, size: int) -> bool:
+    return 0 <= y < size and 0 <= x < size
+
+def neighbors4(y: int, x: int):
+    return [(y-1, x), (y+1, x), (y, x-1), (y, x+1)]
+
+def is_adjacent_to(grid: np.ndarray, y: int, x: int, types: List[int]) -> bool:
+    for ny, nx in neighbors4(y, x):
+        if 0 <= ny < grid.shape[0] and 0 <= nx < grid.shape[1] and grid[ny, nx] in types:
+            return True
+    return False
+
+def find_tiles(grid: np.ndarray, t: int) -> List[Tuple[int, int]]:
+    ys, xs = np.where(grid == t)
+    return list(zip(ys.tolist(), xs.tolist()))
+
+# ---------------- terrain ----------------
+def generate_terrain(size: int, terrain_kind: str) -> np.ndarray:
+    g = np.zeros((size, size), dtype=int)  # EMPTY
+
+    # coastline (left)
+    if terrain_kind in ("coastal", "plains"):
+        width = max(2, size // 8)
+        g[:, :width] = TILE["WATER"]
+
+    # meandering river
+    x = size // 2 + random.randint(-size//8, size//8)
+    for y in range(size):
+        x0 = max(1, min(size-2, x))
+        g[y, x0-1:x0+2] = TILE["WATER"]
+        x += random.choice([-1, 0, 1])
+
+    # mountains diagonal (more if 'mountain')
+    base = size // 3
+    density = 0.6 if terrain_kind == "mountain" else 0.4
+    for i in range(size):
+        j = (i + base) % size
+        g[i, j] = TILE["MOUNTAIN"]
+        if in_bounds(i, j+1, size) and random.random() < density:
+            g[i, j+1] = TILE["MOUNTAIN"]
+
+    return g
+
+# ---------------- zoning ----------------
+def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> np.ndarray:
+    size = terrain.shape[0]
+    plan = terrain.copy()
+
+    pop_factor = max(2, min(8, population // 1500000))  # 13M => ~8
+
+    targets = {
+        "HOME": 300 * pop_factor,
+        "OFFICE": 180 * pop_factor,
+        "FARM": 220 * pop_factor,
+        "PARK": 220 + 12 * eco_priority,
+        "HOSPITAL": max(6, population // 300000),
+        "SCHOOL": max(10, population // 150000),
     }
 
-    # Adjustments based on soil type
-    soil_type = data.soil_type.lower()
-    if soil_type == "clay":
-        recs["factories"] += 1
-        recs["parks"] += 1
-    elif soil_type == "rocky":
-        recs["railway_stations"] += 1
-        recs["solar_plants"] += 1
-    elif soil_type == "sandy":
-        recs["parks"] -= 1 if recs["parks"] > 1 else 0
-        recs["residential_zones"] -= 1 if recs["residential_zones"] > 2 else 0
-    elif soil_type == "loamy":
-        recs["parks"] += 2
-        recs["residential_zones"] += 1
-    
-    # Adjustments based on surroundings
-    surroundings = data.surroundings.lower()
-    if surroundings == "hilly":
-        recs["parks"] += 1
-        recs["residential_zones"] -= 1 if recs["residential_zones"] > 2 else 0
-    elif surroundings == "forest":
-        recs["parks"] += 2
-        recs["factories"] -= 1 if recs["factories"] > 0 else 0
+    # 1) park buffers along water
+    parks_left = targets["PARK"]
+    for y in range(size):
+        for x in range(size):
+            if plan[y, x] == TILE["EMPTY"] and is_adjacent_to(plan, y, x, [TILE["WATER"]]):
+                plan[y, x] = TILE["PARK"]
+                parks_left -= 1
+                if parks_left <= 0:
+                    break
+        if parks_left <= 0:
+            break
 
-    # Feasibility rules
-    feasible = data.population > 10000 and data.area > 10
-    
-    # Check for special cases that might make it infeasible
-    if data.population > 500000 and data.area < 50:
-        feasible = False  # Too dense
-    if soil_type == "rocky" and data.population > 200000:
-        feasible = False  # Rocky terrain can't support very large populations
-        
-    # Summary string
-    summary = (
-        f"City {data.city_name} is planned with a population of {data.population:,} "
-        f"and area {data.area} sq km. The soil is {data.soil_type}, "
-        f"surrounded by {data.surroundings} terrain. "
-        f"Recommended {recs['hospitals']} hospitals, "
-        f"{recs['schools']} schools, {recs['parks']} parks, and {recs['office_buildings']} office buildings."
+    # 2) farms near water away from mountains
+    farms_left = targets["FARM"]
+    for y in range(size):
+        for x in range(size):
+            if plan[y, x] != TILE["EMPTY"]:
+                continue
+            if is_adjacent_to(plan, y, x, [TILE["WATER"], TILE["PARK"]]) and not is_adjacent_to(plan, y, x, [TILE["MOUNTAIN"]]):
+                plan[y, x] = TILE["FARM"]
+                farms_left -= 1
+                if farms_left <= 0:
+                    break
+        if farms_left <= 0:
+            break
+
+    # 3) homes on flat land
+    homes_left = targets["HOME"]
+    for y in range(size):
+        for x in range(size):
+            if plan[y, x] == TILE["EMPTY"] and not is_adjacent_to(plan, y, x, [TILE["MOUNTAIN"]]) and homes_left > 0:
+                plan[y, x] = TILE["HOME"]
+                homes_left -= 1
+
+    # 4) offices near homes (mixed-use bias with eco)
+    offices_left = targets["OFFICE"]
+    bias = 0.6 if eco_priority >= 7 else 0.35
+    for y in range(size):
+        for x in range(size):
+            if plan[y, x] == TILE["EMPTY"] and offices_left > 0 and is_adjacent_to(plan, y, x, [TILE["HOME"]]) and random.random() < bias:
+                plan[y, x] = TILE["OFFICE"]
+                offices_left -= 1
+
+    # 5) hospitals/schools near homes/offices
+    def place_service(tile_id: int, quota: int, near_types: List[int]):
+        left = quota
+        for y in range(size):
+            for x in range(size):
+                if plan[y, x] == TILE["EMPTY"] and is_adjacent_to(plan, y, x, near_types):
+                    plan[y, x] = tile_id
+                    left -= 1
+                    if left <= 0: return
+        for y in range(size):
+            for x in range(size):
+                if plan[y, x] == TILE["EMPTY"] and left > 0:
+                    plan[y, x] = tile_id
+                    left -= 1
+                    if left <= 0: return
+    place_service(TILE["HOSPITAL"], targets["HOSPITAL"], [TILE["HOME"], TILE["OFFICE"]])
+    place_service(TILE["SCHOOL"], targets["SCHOOL"], [TILE["HOME"]])
+
+    # 6) walks between homes and parks
+    for y in range(1, size-1):
+        for x in range(1, size-1):
+            if plan[y, x] == TILE["EMPTY"] and is_adjacent_to(plan, y, x, [TILE["PARK"]]) and is_adjacent_to(plan, y, x, [TILE["HOME"]]):
+                if random.random() < 0.45:
+                    plan[y, x] = TILE["WALK"]
+
+    # 7) roads grid
+    step = max(4, 9 - (pop_factor // 2))  # denser for big cities
+    for y in range(0, size, step):
+        for x in range(size):
+            if plan[y, x] in (TILE["EMPTY"], TILE["WALK"]):
+                plan[y, x] = TILE["ROAD"]
+    for x in range(0, size, step):
+        for y in range(size):
+            if plan[y, x] in (TILE["EMPTY"], TILE["WALK"]):
+                plan[y, x] = TILE["ROAD"]
+
+    # 8) metro on densest column of homes/offices + stations
+    density = np.zeros_like(plan)
+    density[plan == TILE["HOME"]] = 2
+    density[plan == TILE["OFFICE"]] = 3
+    x_peak = int(np.argmax(density.sum(axis=0)))
+    for y in range(size):
+        if plan[y, x_peak] in (TILE["EMPTY"], TILE["WALK"], TILE["ROAD"]):
+            plan[y, x_peak] = TILE["METRO"]
+    for y in range(0, size, 8):
+        if is_adjacent_to(plan, y, x_peak, [TILE["HOME"], TILE["OFFICE"]]):
+            plan[y, x_peak] = TILE["STATION"]
+
+    return plan
+
+# ---------------- metrics ----------------
+def compute_metrics(plan: np.ndarray) -> Dict[str, float]:
+    size = plan.shape[0]
+    total = size * size
+    green = np.count_nonzero(plan == TILE["PARK"]) + np.count_nonzero(plan == TILE["WALK"]) + np.count_nonzero(plan == TILE["FARM"])
+    green_cover_pct = round(100 * green / total, 2)
+
+    homes = find_tiles(plan, TILE["HOME"])
+    walkable = sum(1 for (y, x) in homes if is_adjacent_to(plan, y, x, [TILE["PARK"], TILE["WALK"], TILE["STATION"]]))
+    walkability_index = round(100 * (walkable / max(1, len(homes))), 2)
+
+    transit = sum(1 for (y, x) in homes if is_adjacent_to(plan, y, x, [TILE["METRO"], TILE["STATION"]]))
+    transit_coverage_pct = round(100 * (transit / max(1, len(homes))), 2)
+
+    renew_proxy = (
+        0.3 * np.count_nonzero(plan == TILE["FARM"]) +
+        0.2 * np.count_nonzero(plan == TILE["PARK"]) +
+        0.1 * np.count_nonzero(plan == TILE["WATER"]) +
+        0.1 * np.count_nonzero(plan == TILE["MOUNTAIN"]) +
+        0.3 * np.count_nonzero(plan == TILE["OFFICE"])
     )
-    
-    if not feasible:
-        if data.population > 500000 and data.area < 50:
-            summary += " The city plan may not be feasible due to excessive population density."
-        elif soil_type == "rocky" and data.population > 200000:
-            summary += " The rocky terrain may not support such a large population."
-        else:
-            summary += " The city plan may not be feasible due to inadequate area or population."
+    renewable_potential = round(100 * renew_proxy / total, 2)
 
-    # Use placeholder map image
-    # In a real app, we would generate a custom map here
-    map_url = "/maps/NeoCity_map.png"
-    
-    return DetailedCityResponse(
-        city_name=data.city_name,
-        population=data.population,
-        area=data.area,
-        soil_type=data.soil_type,
-        surroundings=data.surroundings,
-        feasible=feasible,
-        summary=summary,
-        recommendations=recs,
-        map_url=map_url
-    )
+    co2_index = 100 - (0.4 * green_cover_pct + 0.3 * walkability_index + 0.3 * transit_coverage_pct)
+    est_co2_per_capita = round(max(5.0, co2_index / 3), 2)
 
+    return {
+        "green_cover_pct": green_cover_pct,
+        "walkability_index": walkability_index,
+        "renewable_potential": renewable_potential,
+        "est_co2_per_capita": est_co2_per_capita,
+        "transit_coverage_pct": transit_coverage_pct,
+    }
 
-# This function is removed as it was part of another implementation that uses folium
-# We're keeping the DetailedCityResponse implementation instead
+# ---------------- facade ----------------
+def build_plan(size: int, terrain_kind: str, population: int, eco_priority: int, seed: int = 42):
+    seed_everything(seed)
+    terrain = generate_terrain(size, terrain_kind)
+    plan = allocate_zones(terrain, population, eco_priority)
+    metrics = compute_metrics(plan)
+    notes = [
+        "Coastal buffer parks for flood resilience.",
+        "Green corridors connect homes to parks and stations.",
+        "Metro traces densest mixed-use spine; stations every ~8 blocks.",
+    ]
+    return {
+        "legend": LEGEND,
+        "size": size,
+        "terrain_grid": terrain.tolist(),
+        "plan_grid": plan.tolist(),
+        "metrics": metrics,
+        "notes": notes,
+    }

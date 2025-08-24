@@ -1,56 +1,17 @@
-<<<<<<< HEAD
-"""
-Tile definitions and utilities for city planning visualization
-This module provides constants and functions to represent city elements
-"""
-
-# Define tile representations for city planning
-ROAD = "R"  # Road - 🛣️
-HOME = "H"  # Home - 🏠
-BUILDING = "B"  # Building - 🏢
-PARK = "P"  # Park - 🌳
-MARKET = "M"  # Market - 🛍️
-GOVERNMENT = "G"  # Government building - 🏛️
-EMPTY = "E"  # Empty space - ⬜
-
-# Color mappings for frontend
-TILE_COLORS = {
-    ROAD: "#7f8c8d",       # Gray
-    HOME: "#e74c3c",       # Red
-    BUILDING: "#3498db",   # Blue
-    PARK: "#2ecc71",       # Green
-    MARKET: "#f39c12",     # Orange
-    GOVERNMENT: "#9b59b6", # Purple
-    EMPTY: "#ecf0f1",      # Light gray
+TILE = {
+    "EMPTY": 0,
+    "WATER": 1,
+    "MOUNTAIN": 2,
+    "FARM": 3,
+    "PARK": 4,
+    "HOME": 5,
+    "OFFICE": 6,
+    "HOSPITAL": 7,
+    "SCHOOL": 8,
+    "METRO": 9,
+    "STATION": 10,
+    "WALK": 11,
+    "ROAD": 12,
 }
 
-# Functions to convert between formats
-def get_emoji(tile_code):
-    """Convert tile code to emoji representation"""
-    emoji_map = {
-        ROAD: "🛣️",
-        HOME: "🏠",
-        BUILDING: "🏢",
-        PARK: "🌳",
-        MARKET: "🛍️",
-        GOVERNMENT: "🏛️",
-        EMPTY: "⬜",
-    }
-    return emoji_map.get(tile_code, "⬜")
-
-def get_description(tile_code):
-    """Get human-readable description of a tile"""
-    desc_map = {
-        ROAD: "Road",
-        HOME: "Residential",
-        BUILDING: "Commercial Building",
-        PARK: "Park/Green Space",
-        MARKET: "Market/Shopping",
-        GOVERNMENT: "Government/Civic",
-        EMPTY: "Undeveloped Land",
-    }
-    return desc_map.get(tile_code, "Unknown")
-=======
-def generate_tiles():
-    return {"message": "Tiles generated successfully"}
->>>>>>> 274675ff71f270e489da21ab8bad1f12bca825f3
+LEGEND = {v: k for k, v in TILE.items()}
