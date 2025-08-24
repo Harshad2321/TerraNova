@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  background: #1e3a8a;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+  display: flex;
+}
+
+#sidebar {
+  width: 250px;
+  background: #f4f4f4;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+
+#sidebar h2 {
+  margin-top: 0;
+}
+
+#sidebar label {
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+#sidebar input, #sidebar select, #sidebar button {
+  width: 100%;
+  margin-top: 0.3rem;
+  margin-bottom: 0.8rem;
+  padding: 0.4rem;
+}
+
+#generateBtn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#generateBtn:hover {
+  background: #1d4ed8;
+}
+
+#content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  gap: 2rem;
+}
+
+#mapArea, #metricsArea {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+footer {
+  background: #f4f4f4;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}

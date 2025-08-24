@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TerraNova – AI Future City Builder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🏙️ TerraNova – AI Future City Builder</h1>
+  </header>
+  
+  <main>
+    <aside id="sidebar">
+      <h2>City Inputs</h2>
+      <label>City Name</label>
+      <input type="text" id="cityName" value="Neo Greenfield">
+
+      <label>Population</label>
+      <input type="number" id="population" value="13000000" min="50000" max="30000000">
+
+      <label>Terrain</label>
+      <select id="terrain">
+        <option value="coastal">Coastal</option>
+        <option value="plains">Plains</option>
+        <option value="mountain">Mountain</option>
+      </select>
+
+      <label>Eco Priority</label>
+      <input type="range" id="ecoPriority" min="1" max="10" value="9">
+
+      <label>Grid Size (N x N)</label>
+      <input type="number" id="size" value="60" step="12" min="36" max="96">
+
+      <label>Render Style</label>
+      <select id="renderStyle">
+        <option value="pro">Pro Map</option>
+        <option value="simple">Simple Grid</option>
+      </select>
+
+      <button id="generateBtn">Generate Plan</button>
+    </aside>
+
+    <section id="content">
+      <div id="mapArea">
+        <h2>🗺️ City Map</h2>
+        <canvas id="mapCanvas"></canvas>
+      </div>
+      <div id="metricsArea">
+        <h2>📊 Metrics</h2>
+        <ul id="metricsList"></ul>
+        <h3>📝 Notes</h3>
+        <ul id="notesList"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 TerraNova Project</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
