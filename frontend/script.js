@@ -20,27 +20,27 @@ const API_CONFIG = {
     // Detect if running locally or in production
     getBaseURL() {
         const hostname = window.location.hostname;
-        
+
         // Local development
         if (hostname === 'localhost' || hostname === '127.0.0.1') {
             return 'http://127.0.0.1:8000';
         }
-        
+
         // Vercel deployment
         if (hostname.includes('vercel.app')) {
             return `${window.location.protocol}//${hostname}/api`;
         }
-        
+
         // Netlify deployment (external backend)
         if (hostname.includes('netlify.app')) {
             return 'https://your-backend-url.railway.app'; // Update this with your backend URL
         }
-        
+
         // GitHub Pages (external backend)
         if (hostname.includes('github.io')) {
             return 'https://your-backend-url.railway.app'; // Update this with your backend URL
         }
-        
+
         // Default to current domain with /api path
         return `${window.location.protocol}//${hostname}/api`;
     }

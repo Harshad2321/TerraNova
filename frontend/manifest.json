@@ -1,24 +1,28 @@
 {
-  "name": "TerraNova - AI City Builder",
-  "short_name": "TerraNova",
-  "description": "AI-Powered Sustainable City Builder - Create eco-friendly cities with artificial intelligence",
-  "start_url": "/TerraNova/",
-  "display": "standalone",
-  "background_color": "#1e3a8a",
-  "theme_color": "#1e3a8a",
-  "orientation": "any",
-  "scope": "/TerraNova/",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231e3a8a' width='100' height='100' rx='15'/><text y='70' font-size='60' text-anchor='middle' x='50' fill='white'>🏙️</text></svg>",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231e3a8a' width='100' height='100' rx='15'/><text y='70' font-size='60' text-anchor='middle' x='50' fill='white'>🏙️</text></svg>",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
-    }
-  ],
-  "categories": ["education", "utilities", "productivity"]
+    "name": "TerraNova - AI City Builder",
+    "short_name": "TerraNova",
+    "description": "AI-Powered Sustainable City Builder - Create eco-friendly cities with artificial intelligence",
+    "start_url": "/TerraNova/",
+    "display": "standalone",
+    "background_color": "#1e3a8a",
+    "theme_color": "#1e3a8a",
+    "orientation": "any",
+    "scope": "/TerraNova/",
+    "icons": [
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231e3a8a' width='100' height='100' rx='15'/><text y='70' font-size='60' text-anchor='middle' x='50' fill='white'>🏙️</text></svg>",
+            "sizes": "192x192",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231e3a8a' width='100' height='100' rx='15'/><text y='70' font-size='60' text-anchor='middle' x='50' fill='white'>🏙️</text></svg>",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ],
+    "categories": [
+        "education",
+        "utilities",
+        "productivity"
+    ]
 }
