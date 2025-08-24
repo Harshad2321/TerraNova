@@ -4,6 +4,10 @@
 
 TerraNova is a modern, AI-powered city planning application that generates sustainable urban layouts using pure web technologies. No Streamlit, no complex frameworks - just clean HTML, CSS, and JavaScript with a powerful FastAPI backend.
 
+🔗 Live Demo: View Project
+
+💻 Source Code: GitHub Repository
+
 ## 🌟 Features
 
 ### 🤖 **AI-Powered City Generation**
