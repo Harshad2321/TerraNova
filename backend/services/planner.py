@@ -4,7 +4,7 @@ from typing import List, Tuple, Optional, Dict
 import numpy as np
 from .tiles import TILE, LEGEND
 
-# ---------------- helpers ----------------
+
 def seed_everything(seed: Optional[int] = 42):
     if seed is not None:
         random.seed(seed)
@@ -26,23 +26,23 @@ def find_tiles(grid: np.ndarray, t: int) -> List[Tuple[int, int]]:
     ys, xs = np.where(grid == t)
     return list(zip(ys.tolist(), xs.tolist()))
 
-# ---------------- terrain ----------------
-def generate_terrain(size: int, terrain_kind: str) -> np.ndarray:
-    g = np.zeros((size, size), dtype=int)  # EMPTY
 
-    # coastline (left)
+def generate_terrain(size: int, terrain_kind: str) -> np.ndarray:
+    g = np.zeros((size, size), dtype=int)
+
+
     if terrain_kind in ("coastal", "plains"):
         width = max(2, size // 8)
         g[:, :width] = TILE["WATER"]
 
-    # meandering river
+
     x = size // 2 + random.randint(-size//8, size//8)
     for y in range(size):
         x0 = max(1, min(size-2, x))
         g[y, x0-1:x0+2] = TILE["WATER"]
         x += random.choice([-1, 0, 1])
 
-    # mountains diagonal (more if 'mountain')
+
     base = size // 3
     density = 0.6 if terrain_kind == "mountain" else 0.4
     for i in range(size):
@@ -53,12 +53,12 @@ def generate_terrain(size: int, terrain_kind: str) -> np.ndarray:
 
     return g
 
-# ---------------- zoning ----------------
+
 def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> np.ndarray:
     size = terrain.shape[0]
     plan = terrain.copy()
 
-    pop_factor = max(2, min(8, population // 1500000))  # 13M => ~8
+    pop_factor = max(2, min(8, population // 1500000))
 
     targets = {
         "HOME": 300 * pop_factor,
@@ -69,7 +69,7 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
         "SCHOOL": max(10, population // 150000),
     }
 
-    # 1) park buffers along water
+
     parks_left = targets["PARK"]
     for y in range(size):
         for x in range(size):
@@ -81,7 +81,7 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
         if parks_left <= 0:
             break
 
-    # 2) farms near water away from mountains
+
     farms_left = targets["FARM"]
     for y in range(size):
         for x in range(size):
@@ -95,7 +95,7 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
         if farms_left <= 0:
             break
 
-    # 3) homes on flat land
+
     homes_left = targets["HOME"]
     for y in range(size):
         for x in range(size):
@@ -103,7 +103,7 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
                 plan[y, x] = TILE["HOME"]
                 homes_left -= 1
 
-    # 4) offices near homes (mixed-use bias with eco)
+
     offices_left = targets["OFFICE"]
     bias = 0.6 if eco_priority >= 7 else 0.35
     for y in range(size):
@@ -112,7 +112,7 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
                 plan[y, x] = TILE["OFFICE"]
                 offices_left -= 1
 
-    # 5) hospitals/schools near homes/offices
+
     def place_service(tile_id: int, quota: int, near_types: List[int]):
         left = quota
         for y in range(size):
@@ -130,15 +130,15 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
     place_service(TILE["HOSPITAL"], targets["HOSPITAL"], [TILE["HOME"], TILE["OFFICE"]])
     place_service(TILE["SCHOOL"], targets["SCHOOL"], [TILE["HOME"]])
 
-    # 6) walks between homes and parks
+
     for y in range(1, size-1):
         for x in range(1, size-1):
             if plan[y, x] == TILE["EMPTY"] and is_adjacent_to(plan, y, x, [TILE["PARK"]]) and is_adjacent_to(plan, y, x, [TILE["HOME"]]):
                 if random.random() < 0.45:
                     plan[y, x] = TILE["WALK"]
 
-    # 7) roads grid
-    step = max(4, 9 - (pop_factor // 2))  # denser for big cities
+
+    step = max(4, 9 - (pop_factor // 2))
     for y in range(0, size, step):
         for x in range(size):
             if plan[y, x] in (TILE["EMPTY"], TILE["WALK"]):
@@ -148,7 +148,7 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
             if plan[y, x] in (TILE["EMPTY"], TILE["WALK"]):
                 plan[y, x] = TILE["ROAD"]
 
-    # 8) metro on densest column of homes/offices + stations
+
     density = np.zeros_like(plan)
     density[plan == TILE["HOME"]] = 2
     density[plan == TILE["OFFICE"]] = 3
@@ -162,7 +162,7 @@ def allocate_zones(terrain: np.ndarray, population: int, eco_priority: int) -> n
 
     return plan
 
-# ---------------- metrics ----------------
+
 def compute_metrics(plan: np.ndarray) -> Dict[str, float]:
     size = plan.shape[0]
     total = size * size
@@ -196,7 +196,7 @@ def compute_metrics(plan: np.ndarray) -> Dict[str, float]:
         "transit_coverage_pct": transit_coverage_pct,
     }
 
-# ---------------- facade ----------------
+
 def build_plan(size: int, terrain_kind: str, population: int, eco_priority: int, seed: int = 42):
     seed_everything(seed)
     terrain = generate_terrain(size, terrain_kind)

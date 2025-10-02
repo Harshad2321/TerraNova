@@ -41,6 +41,22 @@
             opacity: 0.9;
         }
 
+        .hackathon-badge {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1a202c;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            margin: 1rem 0;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .hackathon-badge a {
+            color: #1a202c;
+            text-decoration: none;
+            border-bottom: 2px solid #1a202c;
+        }
+
         .btn {
             display: inline-block;
             padding: 1rem 2rem;
@@ -89,26 +105,36 @@
 
 <body>
     <div class="container">
-        <h1>🏙️ TerraNova</h1>
-        <p>AI-Powered Sustainable City Builder</p>
+        <h1>TerraNova</h1>
+                <p class="subtitle">AI-Powered Sustainable Urban Planning</p>
+        <p class="description">
+            Create eco-friendly cities with advanced artificial intelligence. 
+            Design sustainable urban layouts, optimize green spaces, and build the future of city planning.
+        </p>
+        <div class="hackathon-badge">
+            <strong>Hackathon Project</strong> | Co-creating with GPT-5 | <a href="https://lablab.ai/event/co-creating-with-gpt-5/terranova?channel=url" target="_blank">lablab.ai</a>
+        </div>
+        <p class="github-note">
+            <strong>Live Demo</strong> - Interactive frontend with AI city visualization
+        </p>
 
         <div class="features">
             <div class="feature">
-                <h3>🤖 AI-Driven</h3>
+                <h3>AI-Driven</h3>
                 <p>Smart algorithms create realistic city layouts</p>
             </div>
             <div class="feature">
-                <h3>🌱 Sustainable</h3>
+                <h3>Sustainable</h3>
                 <p>Focus on eco-friendly urban planning</p>
             </div>
             <div class="feature">
-                <h3>🎨 Interactive</h3>
+                <h3>Interactive</h3>
                 <p>Real-time visualization and metrics</p>
             </div>
         </div>
 
-        <a href="frontend/index.html" class="btn">🚀 Launch TerraNova</a>
-        <a href="README.md" class="btn">📖 View Documentation</a>
+        <a href="frontend/index.html" class="btn">Launch TerraNova</a>
+        <a href="README.md" class="btn">View Documentation</a>
     </div>
 
     <script>

@@ -1,117 +1,93 @@
-# 🏙️ TerraNova Setup Instructions
+# TerraNova Setup Guide
 
-## ✅ What's Been Fixed
+> **Hackathon Project | Co-creating with GPT-5 | [lablab.ai](https://lablab.ai/event/co-creating-with-gpt-5/terranova?channel=url)**
 
-Your TerraNova application is now fully connected! Here's what was resolved:
+## Instant Access
 
-### 🔧 Frontend-Backend Connection Issues Fixed:
-1. **API Endpoint Mismatch**: Updated frontend to call correct `/city/generate_plan` endpoint
-2. **HTML Element Mismatch**: Fixed JavaScript to use correct element IDs
-3. **CORS Issues**: Added proper CORS middleware to backend
-4. **Data Mapping**: Frontend now sends all required parameters
-5. **Visualization**: Added complete map rendering with color-coded legend
+### **Live Demo (No Setup Required)**
+**[https://harshad2321.github.io/TerraNova](https://harshad2321.github.io/TerraNova)**
 
-### 🎨 Enhanced Features Added:
-- **Interactive Map**: Real-time canvas rendering with proper legends
-- **Loading States**: Better user feedback during generation
-- **City Information**: Display of city parameters and metrics
-- **Responsive Design**: Mobile-friendly layout
-- **Error Handling**: Proper error messages and status indicators
+Simply click the link above to try TerraNova instantly! No installation, no dependencies, just pure web technology.
 
-## 🚀 Quick Start (Choose One Method)
+## What You Get
 
-### Method 1: Automatic Runner (Recommended)
+### **Frontend Demo Features:**
+- **Interactive City Visualizer**: Explore pre-generated sustainable cities
+- **Real-time Metrics**: View sustainability indicators and analytics  
+- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
+- **Progressive Web App**: Install on your device for offline access
+- **Modern UI/UX**: Clean, intuitive interface with smooth animations
+
+## Local Development (Optional)
+
+### **Method 1: Direct File Access**
+1. Open `index.html` in your web browser
+2. Click "Launch TerraNova" 
+3. Explore the interactive city planner
+
+### **Method 2: Simple HTTP Server**
 ```bash
-python run_app.py
+cd TerraNova
+python -m http.server 8080
+
 ```
 
-### Method 2: Manual Setup
+### **Method 3: Live Server (VS Code)**
+1. Install "Live Server" extension in VS Code
+2. Right-click `index.html` 
+3. Select "Open with Live Server"
 
-**Terminal 1 - Backend:**
-```bash
-cd backend
-python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000
-```
+##  How to Use TerraNova
 
-**Terminal 2 - Frontend:**
-```bash
-python serve_frontend.py
-```
+### **Getting Started:**
+1. **Launch the App**: Visit the live demo or open locally
+2. **Create Your City**: 
+   - Enter city name (e.g., "Green Haven")
+   - Set population (50K - 30M residents)
+   - Choose terrain (Coastal, Plains, Mountain)
+   - Set eco priority (1-10 scale)
+   - Select grid size for detail level
 
-**Or open directly:**
-Open `frontend/index.html` in your browser
+3. **Explore Results**:
+   - **Interactive Map**: Color-coded city zones
+   - **Sustainability Metrics**: Green coverage, walkability, transit
+   - **AI Insights**: Recommendations for improvement
 
-## 🧪 Testing
+## Understanding the City Map
 
-Run the test script to verify everything works:
-```bash
-python test_backend.py
-```
+| Zone Color | Type | Purpose |
+|------------|------|---------|
+| Blue | Water Bodies | Rivers, lakes, coastline |
+| Brown | Mountains | Natural terrain and barriers |
+| Green | Parks & Nature | Green spaces and recreation |
+| Orange | Residential | Housing and neighborhoods |
+| Dark Gray | Roads | Transportation network |
+| Purple | Metro Lines | Public transit system |
+| Yellow | Schools | Educational facilities |
+| Pink | Hospitals | Healthcare centers |
 
-## 🌐 URLs
+## Sustainability Metrics Explained
 
-- **Frontend**: http://localhost:3000 (or file:///path/to/frontend/index.html)
-- **Backend API**: http://127.0.0.1:8000
-- **API Docs**: http://127.0.0.1:8000/docs
+- **Green Cover %**: Target 25%+ for optimal environmental health
+- **Walkability Index**: Pedestrian-friendly infrastructure rating
+- **Transit Coverage**: Public transportation accessibility
+- **Renewable Potential**: Clean energy generation capacity
+- **CO2 Per Capita**: Environmental impact per resident
 
-## 🎮 How to Use
+## Hackathon Features
 
-1. **Enter City Details**:
-   - City Name: Any name you want
-   - Population: 50,000 to 30,000,000
-   - Terrain: Coastal, Plains, or Mountain
-   - Eco Priority: 1-10 scale (higher = more sustainable)
-   - Grid Size: 36x36 to 96x96 (larger = more detailed)
+### **Why TerraNova Stands Out:**
+- **Zero Dependencies**: Runs anywhere, no complex setup
+- **AI-Powered**: Intelligent city generation algorithms
+- **Sustainability Focus**: Environmental consciousness built-in
+- **Modern Design**: Beautiful, responsive user interface
+- **Real-time Visualization**: Interactive city exploration
+- **Educational Value**: Learn about urban planning
 
-2. **Click "Generate Plan"**: Wait for the AI to create your city
+## Ready to Explore
 
-3. **View Results**:
-   - **Map**: Interactive color-coded city layout
-   - **Metrics**: Sustainability indicators
-   - **Notes**: AI recommendations for improvement
+**[Try TerraNova Live Demo](https://harshad2321.github.io/TerraNova)**
 
-## 🗺️ Understanding the Map
+**[View Hackathon Entry](https://lablab.ai/event/co-creating-with-gpt-5/terranova?channel=url)**
 
-| Color | Zone | Description |
-|-------|------|-------------|
-| 🔵 Blue | Water | Rivers, lakes, coastline |
-| 🟤 Brown | Mountain | Mountainous regions |
-| 🟢 Green | Parks | Green spaces and recreation |
-| 🟠 Orange | Residential | Housing areas |
-| ⚫ Dark Gray | Roads | Street network |
-| 🟣 Purple | Metro | Public transit |
-| 🟡 Yellow | Schools | Educational facilities |
-| 🩷 Pink | Hospitals | Healthcare centers |
-
-## 📊 Key Metrics
-
-- **Green Cover %**: Ideal is 25%+ for sustainability
-- **Walkability Index**: Higher = more pedestrian-friendly
-- **Transit Coverage %**: Public transport accessibility
-- **Renewable Potential**: Capacity for clean energy
-- **CO2 Per Capita**: Lower is better for environment
-
-## 🆘 Troubleshooting
-
-**"Could not connect to backend":**
-- Make sure backend is running on port 8000
-- Check if `uvicorn main:app --reload` is running in the backend folder
-
-**Map not showing:**
-- Enable JavaScript in your browser
-- Check browser console for errors (F12)
-
-**Dependencies missing:**
-```bash
-pip install fastapi uvicorn numpy pydantic
-```
-
-## ✨ Features
-
-- **Real-time Generation**: AI creates cities in seconds
-- **Terrain Adaptation**: Different layouts for coastal, mountain, plains
-- **Population Scaling**: Realistic density based on population
-- **Eco-Friendly Planning**: Sustainability metrics and recommendations
-- **Interactive Visualization**: Click and explore your generated city
-
-Your TerraNova application is now ready to use! 🎉
+Experience the future of sustainable urban planning with AI!

@@ -1,18 +1,17 @@
-// Color mapping for different cell types
 const colorMap = {
-    0: '#f5f5f5',  // EMPTY - light gray
-    1: '#4fc3f7',  // WATER - blue
-    2: '#8d6e63',  // MOUNTAIN - brown
-    3: '#aed581',  // FARM - light green
-    4: '#66bb6a',  // PARK - green
-    5: '#ffb74d',  // HOME - orange
-    6: '#90a4ae',  // OFFICE - gray
-    7: '#f06292',  // HOSPITAL - pink
-    8: '#fff176',  // SCHOOL - yellow
-    9: '#ba68c8',  // METRO - purple
-    10: '#ff8a65', // STATION - red-orange
-    11: '#a1887f', // WALK - light brown
-    12: '#424242'  // ROAD - dark gray
+    0: '#f5f5f5',
+    1: '#4fc3f7',
+    2: '#8d6e63',
+    3: '#aed581',
+    4: '#66bb6a',
+    5: '#ffb74d',
+    6: '#90a4ae',
+    7: '#f06292        metricsList.innerHTML = "<li style='color:red;'>Failed to generate city. Please check if the backend is running on port 8000.</li>";,
+    8: '#fff176',
+    9: '#9c27b0',
+    10: '#ff8a65',
+    11: '#a1887f',
+    12: '#424242'
 };
 
 // API Configuration - automatically detects environment
@@ -123,7 +122,7 @@ async function generateCity() {
     generateBtn.disabled = true;
     btnText.style.display = "none";
     spinner.style.display = "block";
-    metricsList.innerHTML = "<li class='placeholder-metric'>🔄 Generating city plan...</li>";
+    metricsList.innerHTML = "<li class='placeholder-metric'>Generating city plan...</li>";
     notesList.innerHTML = "<li class='placeholder-note'>AI is analyzing your requirements...</li>";
     cityInfoDiv.style.display = "none";
     mapControls.style.display = "none";
@@ -167,7 +166,7 @@ async function generateCity() {
     } catch (error) {
         console.error("Error:", error);
         showError(`Could not connect to backend: ${error.message}`);
-        metricsList.innerHTML = "<li style='color:red;'>⚠️ Failed to generate city. Please check if the backend is running on port 8000.</li>";
+        metricsList.innerHTML = "<li style='color:red;'>Failed to generate city. Please check if the backend is running on port 8000.</li>";
     } finally {
         // Reset button state
         generateBtn.disabled = false;
@@ -280,7 +279,7 @@ function displayMetrics(metrics) {
             displayValue = value;
         }
 
-        li.innerHTML = `${emoji} <strong>${formattedKey}:</strong> ${displayValue}`;
+        li.innerHTML = `<strong>${formattedKey}:</strong> ${displayValue}`;
 
         // Add color coding based on values
         li.style.borderLeftColor = getMetricColor(key, value);
@@ -321,13 +320,13 @@ function displayNotes(notes) {
 
 function getMetricEmoji(key) {
     const emojiMap = {
-        'green_cover_pct': '🌱',
-        'walkability_index': '🚶',
-        'transit_coverage_pct': '🚇',
-        'renewable_potential': '⚡',
-        'est_co2_per_capita': '🌍'
+        'green_cover_pct': '',
+        'walkability_index': '',
+        'transit_coverage_pct': '',
+        'renewable_potential': '',
+        'est_co2_per_capita': ''
     };
-    return emojiMap[key] || '📊';
+    return emojiMap[key] || '';
 }
 
 function getMetricColor(key, value) {
@@ -415,15 +414,15 @@ function showNotification(message, type) {
 function showAbout() {
     const modalBody = document.getElementById('modalBody');
     modalBody.innerHTML = `
-        <h2>🏙️ About TerraNova</h2>
+        <h2>About TerraNova</h2>
         <p>TerraNova is an AI-powered city planning tool that helps you design sustainable urban environments.</p>
         <h3>Features:</h3>
         <ul>
-            <li>🤖 AI-driven city generation</li>
-            <li>🌱 Sustainability metrics</li>
-            <li>🌍 Multiple terrain types</li>
-            <li>📊 Real-time visualization</li>
-            <li>♻️ Eco-friendly planning</li>
+            <li>AI-driven city generation</li>
+            <li>Sustainability metrics</li>
+            <li>Multiple terrain types</li>
+            <li>Real-time visualization</li>
+            <li>Eco-friendly planning</li>
         </ul>
         <h3>How it works:</h3>
         <p>Our AI analyzes your input parameters and generates a city layout optimized for sustainability, livability, and efficiency. The algorithm considers factors like population density, terrain characteristics, and environmental priorities to create realistic urban plans.</p>
@@ -434,7 +433,7 @@ function showAbout() {
 function showHelp() {
     const modalBody = document.getElementById('modalBody');
     modalBody.innerHTML = `
-        <h2>🆘 Help & Guide</h2>
+        <h2>Help & Guide</h2>
         <h3>Getting Started:</h3>
         <ol>
             <li>Enter your city name and population</li>
@@ -446,12 +445,12 @@ function showHelp() {
         <h3>Understanding the Map:</h3>
         <p>Different colors represent different zones:</p>
         <ul>
-            <li>🔵 Blue: Water bodies</li>
-            <li>🟤 Brown: Mountains</li>
-            <li>🟢 Green: Parks and green spaces</li>
-            <li>🟠 Orange: Residential areas</li>
-            <li>⚫ Dark gray: Roads</li>
-            <li>🟣 Purple: Metro lines</li>
+            <li>Blue: Water bodies</li>
+            <li>Brown: Mountains</li>
+            <li>Green: Parks and green spaces</li>
+            <li>Orange: Residential areas</li>
+            <li>Dark gray: Roads</li>
+            <li>Purple: Metro lines</li>
         </ul>
         <h3>Troubleshooting:</h3>
         <p>If you see connection errors, make sure the backend server is running on port 8000.</p>

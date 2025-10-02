@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <        <label for="ecoPriority">Eco Priority: <span id="ecoValue">9</span></label>       <label for="ecoPriority">Eco Priority: <span id="ecoValue">9</span></label>       <label for="ecoPriority">Eco Priority: <span id="ecoValue">9</span></label>eta char        <label for="size">Grid Size (N × N)</label>       <label for="size">Grid Size (N ×              <span id="citySize"></span>N)</label>et="UTF-8">
+  <meta name="viewport" co              <span id="citySize"></span>tent="width=device-width, initial-scale=1.0">
   <title>TerraNova – AI Future City Builder</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏙️</text></svg>">
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>T</text></svg>">
 </head>
 
 <body>
   <header>
     <div class="header-content">
-      <h1>🏙️ TerraNova – AI Future City Builder</h1>
+      <h1>TerraNova – AI Future City Builder</h1>
       <p>Design sustainable cities with artificial intelligence</p>
     </div>
   </header>
@@ -21,32 +21,32 @@
   <main>
     <aside id="sidebar">
       <div class="sidebar-header">
-        <h2>🛠️ City Designer</h2>
+        <h2>City Designer</h2>
         <p>Configure your future city</p>
       </div>
 
       <div class="input-group">
-        <label for="cityName">🏙️ City Name</label>
+        <label for="cityName">City Name</label>
         <input type="text" id="cityName" value="Neo Greenfield" placeholder="Enter city name">
       </div>
 
       <div class="input-group">
-        <label for="population">👥 Population</label>
+        <label for="population">Population</label>
         <input type="number" id="population" value="1300000" min="50000" max="30000000" step="10000">
         <span class="input-help">50K - 30M residents</span>
       </div>
 
       <div class="input-group">
-        <label for="terrain">🌍 Terrain Type</label>
+        <label for="terrain">Terrain Type</label>
         <select id="terrain">
-          <option value="coastal">🏖️ Coastal</option>
-          <option value="plains">🌾 Plains</option>
-          <option value="mountain">⛰️ Mountain</option>
+          <option value="coastal">Coastal</option>
+          <option value="plains">Plains</option>
+          <option value="mountain">Mountain</option>
         </select>
       </div>
 
       <div class="input-group">
-        <label for="ecoPriority">♻️ Eco Priority: <span id="ecoValue">9</span></label>
+        <label for="ecoPriority">Eco Priority: <span id="ecoValue">9</span></label>
         <input type="range" id="ecoPriority" min="1" max="10" value="9">
         <div class="range-labels">
           <span>Low</span>
@@ -55,7 +55,7 @@
       </div>
 
       <div class="input-group">
-        <label for="size">📐 Grid Size (N × N)</label>
+        <label for="size">Grid Size (N × N)</label>
         <select id="size">
           <option value="36">36 × 36 (Small)</option>
           <option value="48">48 × 48 (Medium)</option>
@@ -66,12 +66,12 @@
       </div>
 
       <button id="generateBtn" class="generate-btn">
-        <span id="btnText">🚀 Generate City Plan</span>
+        <span id="btnText">Generate City Plan</span>
         <div id="loadingSpinner" class="spinner" style="display: none;"></div>
       </button>
 
       <div class="tips-section">
-        <h3>💡 Tips</h3>
+        <h3>Tips</h3>
         <ul>
           <li>Higher eco priority = more green spaces</li>
           <li>Coastal terrain adds renewable energy potential</li>
@@ -83,19 +83,19 @@
     <section id="content">
       <div id="mapArea">
         <div class="section-header">
-          <h2>🗺️ Generated City Map</h2>
+          <h2>Generated City Map</h2>
           <div id="cityInfo" class="city-info" style="display: none;">
             <div class="city-stat">
-              <strong>🏙️ <span id="cityNameDisplay"></span></strong>
+              <strong><span id="cityNameDisplay"></span></strong>
             </div>
             <div class="city-stat">
-              👥 <span id="cityPopulation"></span>
+              <span id="cityPopulation"></span>
             </div>
             <div class="city-stat">
-              🌍 <span id="cityTerrain"></span>
+              <span id="cityTerrain"></span>
             </div>
             <div class="city-stat">
-              📐 <span id="citySize"></span>
+              <span id="citySize"></span>
             </div>
           </div>
         </div>
@@ -103,15 +103,15 @@
         <div class="map-container">
           <canvas id="mapCanvas"></canvas>
           <div id="mapControls" class="map-controls" style="display: none;">
-            <button id="downloadBtn" class="control-btn">📥 Download Map</button>
-            <button id="shareBtn" class="control-btn">🔗 Share</button>
+            <button id="downloadBtn" class="control-btn">Download Map</button>
+            <button id="shareBtn" class="control-btn">Share</button>
           </div>
         </div>
       </div>
 
       <div id="metricsArea">
         <div class="section-header">
-          <h2>📊 Sustainability Metrics</h2>
+          <h2>Sustainability Metrics</h2>
         </div>
 
         <div id="metricsContainer">
@@ -121,7 +121,7 @@
         </div>
 
         <div class="section-header">
-          <h3>📝 AI Recommendations</h3>
+          <h3>AI Recommendations</h3>
         </div>
 
         <div id="notesContainer">
@@ -135,7 +135,7 @@
 
   <footer>
     <div class="footer-content">
-      <p>© 2025 TerraNova Project | Built with 🤖 AI & ❤️ for sustainable urban planning</p>
+      <p>© 2025 TerraNova Project | Built with AI for sustainable urban planning</p>
       <div class="footer-links">
         <a href="#" onclick="showAbout()">About</a>
         <a href="#" onclick="showHelp()">Help</a>

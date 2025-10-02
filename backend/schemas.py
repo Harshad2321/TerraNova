@@ -4,7 +4,7 @@ from typing import Dict, List
 class CityRequest(BaseModel):
     city_name: str = Field(..., example="Neo Greenfield")
     population: int = Field(..., example=13_000_000)
-    terrain: str = Field(..., example="coastal")  # coastal | plains | mountain
+    terrain: str = Field(..., example="coastal")
     eco_priority: int = Field(..., ge=1, le=10, example=9)
     size: int = Field(60, ge=36, le=96, example=60)
 

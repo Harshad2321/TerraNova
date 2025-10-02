@@ -1,79 +1,105 @@
-# 🏙️ TerraNova - AI Future City Builder
+# TerraNova - AI Future City Builder
 
-> **100% Streamlit-Free | Pure HTML/CSS/JavaScript Frontend**
+> **Hackathon Project | Co-creating with GPT-5 | lablab.ai**
 
-TerraNova is a modern, AI-powered city planning application that generates sustainable urban layouts using pure web technologies. No Streamlit, no complex frameworks - just clean HTML, CSS, and JavaScript with a powerful FastAPI backend.
+**Live Demo:** [https://harshad2321.github.io/TerraNova](https://harshad2321.github.io/TerraNova)  
+**Hackathon Entry:** [View on lablab.ai](https://lablab.ai/event/co-creating-with-gpt-5/terranova?channel=url)
 
-## 🌟 Features
+TerraNova is an innovative AI-powered city planning application that generates sustainable urban layouts using cutting-edge web technologies. Built for the "Co-creating with GPT-5" hackathon on lablab.ai, this project demonstrates the future of urban planning with artificial intelligence.
 
-### 🤖 **AI-Powered City Generation**
+**Pure Frontend | No Dependencies | Instant GitHub Pages Deployment**
+
+## Hackathon Achievement
+
+[![Hackathon](https://img.shields.io/badge/Hackathon-Co--creating%20with%20GPT--5-blue)](https://lablab.ai/event/co-creating-with-gpt-5/terranova?channel=url)
+[![Platform](https://img.shields.io/badge/Platform-lablab.ai-green)](https://lablab.ai)
+[![Demo](https://img.shields.io/badge/Demo-Live-success)](https://harshad2321.github.io/TerraNova)
+[![Tech](https://img.shields.io/badge/Tech-AI%20%2B%20Web-orange)](https://github.com/Harshad2321/TerraNova)
+
+**Project Link:** [View on lablab.ai](https://lablab.ai/event/co-creating-with-gpt-5/terranova?channel=url)
+
+## Features
+
+### **AI-Powered City Generation**
 - Intelligent urban planning algorithms
 - Population-based density optimization
 - Terrain-adaptive layouts
 - Eco-priority focused design
 
-### 🎨 **Modern Web Interface**
+### **Modern Web Interface**
 - **Pure HTML/CSS/JavaScript** - No framework dependencies
 - Responsive design for all devices
 - Real-time interactive map visualization
 - Smooth animations and transitions
 - Progressive Web App features
 
-### 🌱 **Sustainability Focus**
+### **Sustainability Focus**
 - Green coverage optimization
 - Walkability index calculation
 - Public transit planning
 - Renewable energy potential assessment
 - CO2 emission tracking
 
-### 📊 **Advanced Analytics**
+### **Advanced Analytics**
 - Real-time sustainability metrics
 - AI-generated recommendations
 - Color-coded zone visualization
 - Downloadable city maps
 - Shareable city designs
 
-## 🚀 Quick Start
+## Hackathon Innovation
 
-### Option 1: One-Click Launch
+### **What Makes TerraNova Special:**
+- **Zero Dependencies**: Pure HTML/CSS/JS frontend - works anywhere
+- **Instant Deployment**: One-click GitHub Pages deployment
+- **AI-Driven**: Intelligent city generation with sustainability focus
+- **Modern Tech Stack**: FastAPI + Vanilla JavaScript (no frameworks)
+- **Mobile-Ready**: Progressive Web App with offline capabilities
+- **Open Source**: Complete transparency and extensibility
+
+### **Built With GPT-5 Co-creation:**
+This project demonstrates human-AI collaboration in creating complex applications. The city generation algorithms, UI/UX design, and deployment strategies were developed through iterative co-creation with AI assistance.
+
+## Quick Start
+
+### GitHub Pages Deployment (Recommended)
+
+**1. Fork/Clone this repository**
 ```bash
-python run_app.py
+git clone https://github.com/YOUR_USERNAME/TerraNova.git
+cd TerraNova
 ```
 
-### Option 2: Manual Setup
-
-**1. Install Dependencies**
+**2. Push to your GitHub repository**
 ```bash
-pip install -r requirements.txt
+git remote set-url origin https://github.com/YOUR_USERNAME/TerraNova.git
+git push origin main
 ```
 
-**2. Start Backend (Terminal 1)**
-```bash
-cd backend
-uvicorn main:app --reload --host 127.0.0.1 --port 8000
-```
+**3. Enable GitHub Pages**
+- Go to your repository settings
+- Navigate to "Pages" section
+- Select "Deploy from a branch"
+- Choose "main" branch and "/ (root)" folder
+- Your site will be available at: `https://YOUR_USERNAME.github.io/TerraNova`
 
-**3. Start Frontend (Terminal 2)**
-```bash
-python serve_frontend.py
-```
+### Local Development (Optional)
 
-**4. Open in Browser**
-- **Main App**: http://localhost:3000
-- **Landing Page**: Open `index.html` in browser
-- **API Docs**: http://127.0.0.1:8000/docs
+**Open directly in browser:**
+- Open `index.html` in your web browser
+- Navigate to the frontend by clicking "Launch TerraNova"
 
-## 🎮 How to Use
+## How to Use
 
 ### 1. **City Configuration**
-- **🏙️ City Name**: Enter your desired city name
-- **👥 Population**: Set between 50K - 30M residents
-- **🌍 Terrain**: Choose from Coastal, Plains, or Mountain
-- **♻️ Eco Priority**: Scale 1-10 (higher = more sustainable)
-- **📐 Grid Size**: Select from 36×36 to 84×84 for detail level
+- **City Name**: Enter your desired city name
+- **Population**: Set between 50K - 30M residents
+- **Terrain**: Choose from Coastal, Plains, or Mountain
+- **Eco Priority**: Scale 1-10 (higher = more sustainable)
+- **Grid Size**: Select from 36×36 to 84×84 for detail level
 
 ### 2. **Generation Process**
-- Click "🚀 Generate City Plan"
+- Click "Generate City Plan"
 - Watch AI create your sustainable city
 - View real-time progress indicators
 
@@ -83,62 +109,62 @@ python serve_frontend.py
 - **AI Recommendations**: Get optimization suggestions
 - **Download/Share**: Export maps or share designs
 
-## 🗺️ Understanding the City Map
+## Understanding the City Map
 
 | Zone | Color | Description | Purpose |
 |------|-------|-------------|---------|
-| 🌊 Water | Blue | Rivers, lakes, coastline | Natural features, recreation |
-| ⛰️ Mountain | Brown | Mountainous terrain | Natural barriers, scenic areas |
-| 🌾 Farm | Light Green | Agricultural zones | Food production, rural areas |
-| 🌳 Parks | Green | Green spaces, recreation | Environmental health, quality of life |
-| 🏠 Residential | Orange | Housing areas | Living spaces for citizens |
-| 🏢 Commercial | Gray | Business districts | Economic centers, jobs |
-| 🏥 Healthcare | Pink | Hospitals, clinics | Medical services |
-| 🏫 Education | Yellow | Schools, universities | Learning institutions |
-| 🚇 Metro | Purple | Subway lines | Mass transit system |
-| 🚉 Stations | Red-Orange | Transit hubs | Transport connections |
-| 🚶 Walkways | Light Brown | Pedestrian paths | Walkable infrastructure |
-| 🛣️ Roads | Dark Gray | Street network | Vehicle transportation |
+| Water | Blue | Rivers, lakes, coastline | Natural features, recreation |
+| Mountain | Brown | Mountainous terrain | Natural barriers, scenic areas |
+| Farm | Light Green | Agricultural zones | Food production, rural areas |
+| Parks | Green | Green spaces, recreation | Environmental health, quality of life |
+| Residential | Orange | Housing areas | Living spaces for citizens |
+| Commercial | Gray | Business districts | Economic centers, jobs |
+| Healthcare | Pink | Hospitals, clinics | Medical services |
+| Education | Yellow | Schools, universities | Learning institutions |
+| Metro | Purple | Subway lines | Mass transit system |
+| Stations | Red-Orange | Transit hubs | Transport connections |
+| Walkways | Light Brown | Pedestrian paths | Walkable infrastructure |
+| Roads | Dark Gray | Street network | Vehicle transportation |
 
-## 📊 Sustainability Metrics Explained
+## Sustainability Metrics Explained
 
-### 🌱 **Green Cover Percentage**
+### **Green Cover Percentage**
 - **Target**: 25%+ for optimal sustainability
 - **Impact**: Air quality, temperature regulation, biodiversity
 - **Factors**: Parks, farms, natural areas vs total city area
 
-### 🚶 **Walkability Index** (0-100)
+### **Walkability Index** (0-100)
 - **Excellent**: 80+ (Highly pedestrian-friendly)
 - **Good**: 60-79 (Moderately walkable)
 - **Poor**: <60 (Car-dependent)
 - **Factors**: Pedestrian paths, mixed-use development, proximity to amenities
 
-### 🚇 **Transit Coverage** (0-100%)
+### **Transit Coverage** (0-100%)
 - **Excellent**: 70%+ (Comprehensive public transport)
 - **Good**: 50-69% (Adequate coverage)
 - **Poor**: <50% (Limited access)
 - **Factors**: Metro lines, stations, service area coverage
 
-### ⚡ **Renewable Potential** (0-100)
+### **Renewable Potential** (0-100)
 - **Factors**: Terrain type, climate conditions, available space
 - **Coastal**: Wind and tidal energy opportunities
 - **Mountain**: Hydroelectric and wind potential
 - **Plains**: Solar and wind energy capacity
 
-### 🌍 **CO2 Per Capita** (tons/year)
+### **CO2 Per Capita** (tons/year)
 - **Excellent**: <3 tons (Carbon negative/neutral)
 - **Good**: 3-5 tons (Low carbon footprint)
 - **Poor**: >5 tons (High emissions)
 - **Factors**: Energy mix, transport systems, urban density
 
-## 🛠️ Technical Architecture
+## Technical Architecture
 
 ### **Frontend Stack**
 ```
-📁 frontend/
-├── 📄 index.html     # Main application UI
-├── 🎨 style.css      # Modern responsive styling
-└── ⚡ script.js      # Interactive functionality
+frontend/
+├── index.html
+├── style.css
+└── script.js
 ```
 
 **Technologies:**
@@ -150,11 +176,11 @@ python serve_frontend.py
 
 ### **Backend Stack**
 ```
-📁 backend/
-├── 🐍 main.py        # FastAPI application
-├── 📋 schemas.py     # Data models
-├── 📁 routers/       # API endpoints
-└── 📁 services/      # Business logic
+backend/
+├── main.py
+├── schemas.py
+├── routers/
+└── services/
 ```
 
 **Technologies:**
@@ -172,7 +198,7 @@ python serve_frontend.py
 5. **Sustainability Integration**: Green spaces and renewable energy
 6. **Metrics Calculation**: Real-time sustainability assessment
 
-## 🔧 API Reference
+## API Reference
 
 ### **Generate City Plan**
 ```http
@@ -211,7 +237,7 @@ GET /
 GET /health
 ```
 
-## 📱 Progressive Web App Features
+## Progressive Web App Features
 
 - **Offline Capability**: Works without internet after first load
 - **Responsive Design**: Optimized for desktop, tablet, and mobile
@@ -219,7 +245,7 @@ GET /health
 - **App-like Experience**: Can be installed on devices
 - **Modern Browser APIs**: Canvas, LocalStorage, Clipboard
 
-## 🧪 Testing & Development
+## Testing & Development
 
 ### **Run Tests**
 ```bash
@@ -244,14 +270,14 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000
 # Deploy frontend/ folder to any static hosting service
 ```
 
-## 🌍 Browser Compatibility
+## Browser Compatibility
 
 | Browser | Version | Status |
 |---------|---------|--------|
-| Chrome | 80+ | ✅ Full Support |
-| Firefox | 75+ | ✅ Full Support |
-| Safari | 13+ | ✅ Full Support |
-| Edge | 80+ | ✅ Full Support |
+| Chrome | 80+ | Full Support |
+| Firefox | 75+ | Full Support |
+| Safari | 13+ | Full Support |
+| Edge | 80+ | Full Support |
 
 **Required Features:**
 - HTML5 Canvas API
@@ -259,7 +285,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000
 - JavaScript ES6+ (async/await)
 - Fetch API
 
-## 🤝 Contributing
+## Contributing
 
 ### **Development Setup**
 1. Fork the repository
@@ -275,7 +301,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000
 - **CSS**: BEM methodology preferred
 - **HTML**: Semantic markup
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
@@ -283,17 +309,17 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ### **Common Issues**
 
-**❌ "Could not connect to backend"**
+**"Could not connect to backend"**
 - Ensure backend is running: `cd backend && uvicorn main:app --reload`
 - Check port 8000 is available
 - Verify CORS settings
 
-**❌ "Map not rendering"**
+**"Map not rendering"**
 - Enable JavaScript in browser
 - Check browser console (F12) for errors
 - Ensure Canvas API is supported
 
-**❌ "Dependencies failed to install"**
+**"Dependencies failed to install"**
 - Update pip: `python -m pip install --upgrade pip`
 - Use virtual environment
 - Check Python version (3.8+ required)
@@ -310,7 +336,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - Enable browser caching
 - Use local development setup
 
-## 🎯 Roadmap
+## Roadmap
 
 ### **Version 2.0 Planned Features**
 - [ ] 3D city visualization
@@ -326,8 +352,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🏆 **TerraNova: Building Sustainable Cities with AI**
+## **TerraNova: Building Sustainable Cities with AI**
 
 **No Streamlit. No complexity. Just pure web technology creating the future of urban planning.**
 
-Built with ❤️ for sustainable urban development by the TerraNova team.
+Built for sustainable urban development by the TerraNova team.
