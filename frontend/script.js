@@ -14,53 +14,53 @@ const colorMap = {
     12: '#424242'
 };
 
-// API Configuration - automatically detects environment
+
 const API_CONFIG = {
-    // Detect if running locally or in production
+
     getBaseURL() {
         const hostname = window.location.hostname;
 
-        // Local development
+
         if (hostname === 'localhost' || hostname === '127.0.0.1') {
             return 'http://127.0.0.1:8000';
         }
 
-        // Vercel deployment
+
         if (hostname.includes('vercel.app')) {
             return `${window.location.protocol}//${hostname}/api`;
         }
 
-        // Netlify deployment (external backend)
+
         if (hostname.includes('netlify.app')) {
-            return 'https://your-backend-url.railway.app'; // Update this with your backend URL
+            return 'https://your-backend-url.railway.app';
         }
 
-        // GitHub Pages (external backend)
+
         if (hostname.includes('github.io')) {
-            return 'https://your-backend-url.railway.app'; // Update this with your backend URL
+            return 'https://your-backend-url.railway.app';
         }
 
-        // Default to current domain with /api path
+
         return `${window.location.protocol}//${hostname}/api`;
     }
 };
 
-// Initialize the application
+
 document.addEventListener('DOMContentLoaded', function () {
     initializeApp();
 });
 
 function initializeApp() {
-    // Set up event listeners
+
     document.getElementById("generateBtn").addEventListener("click", generateCity);
     document.getElementById("ecoPriority").addEventListener("input", updateEcoValue);
     document.getElementById("downloadBtn").addEventListener("click", downloadMap);
     document.getElementById("shareBtn").addEventListener("click", shareCity);
 
-    // Initialize eco priority display
+
     updateEcoValue();
 
-    // Add sample data for demo
+
     loadSampleData();
 }
 
@@ -71,7 +71,7 @@ function updateEcoValue() {
 }
 
 function loadSampleData() {
-    // Add some sample cities for quick testing
+
     const sampleCities = [
         "Neo Greenfield", "EcoTopia", "Sustainable Springs", "Green Haven",
         "Future City", "Carbon Zero", "Solar Vista", "Wind Harbor"
@@ -80,7 +80,7 @@ function loadSampleData() {
     const cityNameInput = document.getElementById("cityName");
     cityNameInput.setAttribute("list", "cityList");
 
-    // Create datalist for city suggestions
+
     const datalist = document.createElement("datalist");
     datalist.id = "cityList";
     sampleCities.forEach(city => {
@@ -99,7 +99,7 @@ async function generateCity() {
     const ecoPriority = parseInt(document.getElementById("ecoPriority").value);
     const size = parseInt(document.getElementById("size").value);
 
-    // Validation
+
     if (!cityName) {
         showError("Please enter a city name");
         return;
@@ -118,7 +118,7 @@ async function generateCity() {
     const cityInfoDiv = document.getElementById("cityInfo");
     const mapControls = document.getElementById("mapControls");
 
-    // Show loading state
+
     generateBtn.disabled = true;
     btnText.style.display = "none";
     spinner.style.display = "block";
@@ -149,16 +149,16 @@ async function generateCity() {
 
         const data = await response.json();
 
-        // Display results with animations
+
         setTimeout(() => displayCityInfo(data.city_info), 300);
         setTimeout(() => renderMap(data.plan_grid, data.legend), 600);
         setTimeout(() => displayMetrics(data.metrics), 900);
         setTimeout(() => displayNotes(data.notes), 1200);
 
-        // Show map controls
+
         mapControls.style.display = "flex";
 
-        // Store data for sharing/downloading
+
         window.currentCityData = data;
 
         showSuccess("City generated successfully!");
@@ -168,7 +168,7 @@ async function generateCity() {
         showError(`Could not connect to backend: ${error.message}`);
         metricsList.innerHTML = "<li style='color:red;'>Failed to generate city. Please check if the backend is running on port 8000.</li>";
     } finally {
-        // Reset button state
+
         generateBtn.disabled = false;
         btnText.style.display = "block";
         spinner.style.display = "none";
@@ -186,10 +186,10 @@ function renderMap(grid, legend) {
     canvas.width = gridSize * cellSize;
     canvas.height = gridSize * cellSize;
 
-    // Clear canvas
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw grid with smooth rendering
+
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
             const cellType = grid[i][j];
@@ -198,7 +198,7 @@ function renderMap(grid, legend) {
             ctx.fillStyle = color;
             ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
 
-            // Add subtle borders for larger cells
+
             if (cellSize > 8) {
                 ctx.strokeStyle = 'rgba(0,0,0,0.1)';
                 ctx.lineWidth = 0.5;
@@ -207,12 +207,12 @@ function renderMap(grid, legend) {
         }
     }
 
-    // Add legend
+
     addLegend(legend);
 }
 
 function addLegend(legend) {
-    // Remove existing legend
+
     const existingLegend = document.getElementById('mapLegend');
     if (existingLegend) {
         existingLegend.remove();
@@ -221,7 +221,7 @@ function addLegend(legend) {
     const legendContainer = document.createElement('div');
     legendContainer.id = 'mapLegend';
 
-    // Create legend items
+
     Object.entries(legend).forEach(([code, name]) => {
         const legendItem = document.createElement('div');
         legendItem.className = 'legend-item';
@@ -265,7 +265,7 @@ function displayMetrics(metrics) {
         const li = document.createElement("li");
         const formattedKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-        // Add appropriate emoji for each metric
+
         const emoji = getMetricEmoji(key);
 
         let displayValue;
@@ -281,7 +281,7 @@ function displayMetrics(metrics) {
 
         li.innerHTML = `<strong>${formattedKey}:</strong> ${displayValue}`;
 
-        // Add color coding based on values
+
         li.style.borderLeftColor = getMetricColor(key, value);
 
         // Animate appearance
@@ -305,7 +305,6 @@ function displayNotes(notes) {
         const li = document.createElement("li");
         li.textContent = note;
 
-        // Animate appearance
         li.style.opacity = "0";
         li.style.transform = "translateX(-20px)";
         setTimeout(() => {
@@ -331,10 +330,10 @@ function getMetricEmoji(key) {
 
 function getMetricColor(key, value) {
     if (key === 'est_co2_per_capita') {
-        // Lower is better for CO2
+
         return value < 3 ? '#16a34a' : value < 5 ? '#f59e0b' : '#dc2626';
     } else {
-        // Higher is better for other metrics
+
         return value > 70 ? '#16a34a' : value > 40 ? '#f59e0b' : '#dc2626';
     }
 }
@@ -410,7 +409,7 @@ function showNotification(message, type) {
     }, 3000);
 }
 
-// Modal functions
+
 function showAbout() {
     const modalBody = document.getElementById('modalBody');
     modalBody.innerHTML = `

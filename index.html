@@ -138,7 +138,7 @@
     </div>
 
     <script>
-        // Add some particle effect
+
         function createParticle() {
             const particle = document.createElement('div');
             particle.style.cssText = `
@@ -156,7 +156,7 @@
             setTimeout(() => particle.remove(), 5000);
         }
 
-        // Add CSS for falling animation
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes fall {
@@ -168,7 +168,7 @@
         `;
         document.head.appendChild(style);
 
-        // Create particles
+
         setInterval(createParticle, 200);
     </script>
 </body>

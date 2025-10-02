@@ -1,4 +1,4 @@
-/* Modern CSS Variables */
+
 :root {
   --primary-color: #1e3a8a;
   --primary-light: #3b82f6;
@@ -255,7 +255,7 @@ main {
   color: var(--gray-600);
 }
 
-/* Content Area */
+
 #content {
   flex: 1;
   display: flex;
@@ -389,7 +389,7 @@ main {
   flex-shrink: 0;
 }
 
-/* Metrics and Notes */
+
 #metricsList,
 #notesList {
   list-style: none;
@@ -425,7 +425,7 @@ main {
   text-align: center;
 }
 
-/* Footer */
+
 footer {
   background: white;
   border-top: 1px solid var(--gray-200);
@@ -462,7 +462,7 @@ footer {
   color: var(--primary-light);
 }
 
-/* Modal */
+
 .modal {
   position: fixed;
   z-index: 1000;
@@ -499,7 +499,7 @@ footer {
   color: var(--gray-800);
 }
 
-/* Footer Styling */
+
 footer {
   background: var(--gray-800);
   color: white;
@@ -530,7 +530,7 @@ footer nav a:hover {
   opacity: 1;
 }
 
-/* Tips Section */
+
 .tips {
   background: var(--gray-50);
   padding: 1.5rem;
@@ -556,7 +556,7 @@ footer nav a:hover {
   font-size: 0.9rem;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1200px) {
   .container {
     grid-template-columns: 1fr;
