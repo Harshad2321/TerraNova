@@ -59,37 +59,38 @@ header {
 
 main {
   flex: 1;
-  display: flex;
-  min-height: 0;
+  padding: 2rem;
 }
 
-/* Sidebar Styling */
-#sidebar {
-  width: 320px;
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.controls {
   background: white;
   padding: 2rem;
-  border-right: 1px solid var(--gray-200);
-  box-shadow: var(--shadow-sm);
-  overflow-y: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
 }
 
-.sidebar-header {
-  text-align: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--gray-100);
-}
-
-.sidebar-header h2 {
+.controls h2 {
   margin: 0 0 0.5rem 0;
   color: var(--primary-color);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
 }
 
-.sidebar-header p {
-  margin: 0;
+.controls p {
+  margin: 0 0 2rem 0;
   color: var(--gray-500);
-  font-size: 0.9rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .input-group {
@@ -102,6 +103,7 @@ main {
   font-weight: 600;
   color: var(--gray-700);
   font-size: 0.95rem;
+  text-align: left;
 }
 
 .input-group input,
@@ -137,6 +139,26 @@ main {
   margin-top: 0.25rem;
 }
 
+.visualization {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.map-container, .metrics, .recommendations {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+}
+
+.map-container h2, .metrics h3, .recommendations h3 {
+  margin: 0 0 1rem 0;
+  color: var(--primary-color);
+  text-align: center;
+}
+
 .generate-btn {
   width: 100%;
   padding: 1rem;
@@ -163,6 +185,31 @@ main {
 .generate-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.tips {
+  background: var(--gray-50);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--secondary-color);
+  margin-top: 2rem;
+}
+
+.tips h3 {
+  margin: 0 0 1rem 0;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.tips li {
+  margin-bottom: 0.5rem;
+  color: var(--gray-600);
+  font-size: 0.9rem;
 }
 
 .spinner {
@@ -452,44 +499,94 @@ footer {
   color: var(--gray-800);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  #content {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
+/* Footer Styling */
+footer {
+  background: var(--gray-800);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-top: 3rem;
+}
 
-  #mapArea,
-  #metricsArea {
-    min-height: 400px;
+footer p {
+  margin: 0 0 1rem 0;
+  opacity: 0.8;
+}
+
+footer nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+footer nav a {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+footer nav a:hover {
+  opacity: 1;
+}
+
+/* Tips Section */
+.tips {
+  background: var(--gray-50);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--secondary-color);
+  margin-top: 2rem;
+}
+
+.tips h3 {
+  margin: 0 0 1rem 0;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.tips li {
+  margin-bottom: 0.5rem;
+  color: var(--gray-600);
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 800px;
   }
 }
 
 @media (max-width: 768px) {
-  .header-content h1 {
+  header h1 {
     font-size: 2rem;
   }
 
-  .header-content p {
+  header p {
     font-size: 1rem;
   }
 
   main {
-    flex-direction: column;
-  }
-
-  #sidebar {
-    width: 100%;
-    padding: 1.5rem;
-  }
-
-  #content {
     padding: 1rem;
   }
 
-  .city-info {
-    grid-template-columns: 1fr;
+  .controls, .map-container, .metrics, .recommendations {
+    padding: 1.5rem;
   }
+
+  footer nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
 
   .footer-links {
     flex-direction: column;
@@ -498,20 +595,11 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .header-content h1 {
+  header h1 {
     font-size: 1.5rem;
   }
-
-  #sidebar {
-    padding: 1rem;
-  }
-
-  #content {
-    padding: 0.5rem;
-  }
-
-  #mapArea,
-  #metricsArea {
+  
+  .controls, .map-container, .metrics, .recommendations {
     padding: 1rem;
   }
 }
