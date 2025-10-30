@@ -7,8 +7,3 @@ python-multipart>=0.0.6
 
 # Production Dependencies
 gunicorn>=21.2.0
-
-# Optional: For advanced features
-matplotlib>=3.7.0
-pillow>=10.0.0
-requests>=2.31.0
